@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Validation</title>
+    <link rel="stylesheet" href="validation.css">
+
+</head>
+<body>
+  <!-- 
+Muhammad Ali,the three time world heavyweight boxing champion , never forgot his roots.He return to his.  -->
+    <p id="paragraph"> Performance Tricks</p>
+<div class="founded">
+    <input id="input" type="text" placeholder="Type here">
+</div>
+<p id="result"></p>
+<script>
+
+    
+const paragraph = document.getElementById("paragraph");
+const input = document.getElementById("input");
+const result = document.getElementById("result");
+
+let startTime = 0;
+let endTime = 0;
+let mistakes = 0;
+
+input.addEventListener("input", function() {
+  const typingText = input.value;
+  const originalText = paragraph.innerText;
+  const typingWordsPerMinute = calculateWordsPerMinute(startTime, endTime, typingText);
+
+  if (typingText === originalText) {
+    input.style.backgroundColor = "green";
+    result.innerHTML = `letter typing within ${typingWordsPerMinute} word typing time with ${mistakes} mistakes.`;
+  } else if (originalText.startsWith(typingText)) {
+    input.style.backgroundColor = "white";
+  } else {
+    input.style.backgroundColor = "red";
+    mistakes++;
+  }
+});
+
+function calculateWordsPerMinute(startTime, endTime, typedText) {
+  if (startTime && endTime) {
+    const gettingTimeInSeconds = (endTime - startTime) / 1000;
+    const typingWords = typedText.trim().split(/\s+/).length;  
+    return Math.round(typingWords / (gettingTimeInSeconds / 60));
+  } else {
+    return 0;
+  }
+}
+
+input.addEventListener("focus", function() {
+  startTime = Date.now();
+});
+
+input.addEventListener("blur", function() {
+  endTime = Date.now();
+});
+
+</script>
+</body>
+</html>
+
